@@ -1,0 +1,41 @@
+{
+  "name": "backend-mvp",
+  "version": "1.0.0-mvp",
+  "description": "The simplest authentication and authorization service in the Middle-earth.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gandalf-id/backend-mvp.git"
+  },
+  "keywords": [
+    "auth",
+    "authentication",
+    "authorization",
+    "IDaaS",
+    "gandalf"
+  ],
+  "author": "Gandalf.id <gandalf.id@protonmail.com>",
+  "contributors": [
+    "Davi Figueiredo <davi.mello.28@gmail.com>",
+    "Jorge Luis <jorgeluisrezende94@gmail.com>",
+    "Domenic Denicola <domenic@domenicdenicola.com> (http://domenicdenicola.com)"
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gandalf-id/backend-mvp/issues"
+  },
+  "homepage": "https://github.com/gandalf-id/backend-mvp#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^6.3.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^9.2.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "mocha": "^6.2.0"
+  }
+}
