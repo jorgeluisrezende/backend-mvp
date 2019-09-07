@@ -21,17 +21,16 @@ frodo@shire:~$ npm i gandalf-id
 ```
 6. Use wisely:
 
-6.1. If you want an authentication (check for `username` and `password`):
+    1. If you want an authentication (check for `username` and `password`):
+    ```javascript
+    app.use(require('gandalf-id')(key))
+    ```
+    
+    2. If you want an authorization (check if an account can use a `method` somewhere):
+    ```javascript
+    const gandalf = require('gandalf-id')(key)
 
-```javascript
-app.use(require('gandalf-id')(key))
-```
-6.2. If you want an authorization (check if an account can use a `method` somewhere):
-
-```javascript
-const gandalf = require('gandalf-id')(key)
-
-app.get('/mordor', gandalf(['hobbits', 'users']), (req, res, next) => {
-  /* You shall not pass...unless you are a hobbit or an user */
-})
-```
+    app.get('/mordor', gandalf(['hobbits', 'users']), (req, res, next) => {
+      /* You shall not pass...unless you are a hobbit or an user */
+    })
+    ```
