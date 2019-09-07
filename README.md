@@ -10,11 +10,15 @@
 
 1. Create an account on [Gandalf.id](https://gandalf.id/new)
 
+> :information_source: If you **don't** want to create an account on our servers, let us know.
+
 2. Create a a `role` called `users`
 
 3. Add the `permission` to `get` into `/mordor`
 
 4. Create an account called `frodo` and add it to `users`
+
+6. Create a `key` for your application.
 
 5. Just install the package:
 
