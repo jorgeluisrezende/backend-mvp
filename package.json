@@ -1,10 +1,12 @@
 {
   "name": "backend-mvp",
-  "version": "1.0.0-mvp",
+  "version": "1.0.0-proto",
   "description": "The simplest authentication and authorization service in the Middle-earth.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "debug": "DEBUG=gandalf:*  node index.js",
+    "test": "mocha ./tests/*/*.js"
   },
   "repository": {
     "type": "git",
@@ -28,7 +30,13 @@
     "url": "https://github.com/gandalf-id/backend-mvp/issues"
   },
   "homepage": "https://github.com/gandalf-id/backend-mvp#readme",
-  "dependencies": {},
+  "dependencies": {
+    "debug": "^4.1.1",
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4"
+  },
   "devDependencies": {
     "eslint": "^6.3.0",
     "eslint-config-standard": "^14.1.0",
