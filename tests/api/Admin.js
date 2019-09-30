@@ -1,4 +1,4 @@
-import { describe, it } from 'mocha'
+const { describe, it } = require('mocha')
 
 describe('Admin', function () {
   describe('create', function () {
