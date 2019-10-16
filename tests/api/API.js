@@ -37,15 +37,9 @@ describe('API', function () {
     })
 
     it('shouldn\'t be able to make a request to an unexisting endpoint', async function () {
-      try {
-        const res = await rp(Template.req('GET', '/non-existent-endpoint'))
-
-        /* This request should throw an error */
-        assert.fail(res)
-      } catch (res) {
-        assert.strictEqual(res.statusCode, 404)
-        assert.strictEqual(res.body, 'Unable to find path or execute method on path.')
-      }
+      const res = await rp(Template.req('GET', '/non-existent-endpoint'))
+      assert.strictEqual(res.statusCode, 404)
+      assert.strictEqual(res.body, 'Unable to find path or execute method on path.')
     })
 
     it('should be able to send a correct username and password.', async function () {
@@ -67,20 +61,15 @@ describe('API', function () {
     })
 
     it('should be able to send a incorrect username', async function () {
-      try {
-        const user = {
-          username: encryption.sha256('non-existent-user'),
-          password: encryption.sha256('mordor')
-        }
-
-        const req = Template.req('POST', '/user/authenticate', user)
-        const res = await rp(req)
-
-        assert.fail(res)
-      } catch (res) {
-        assert.strictEqual(res.statusCode, 403, 'status code match')
-        assert.strictEqual(res.body, 'User not found.', 'message match')
+      const user = {
+        username: encryption.sha256('non-existent-user'),
+        password: encryption.sha256('mordor')
       }
+
+      const req = Template.req('POST', '/user/authenticate', user)
+      const res = await rp(req)
+      assert.strictEqual(res.statusCode, 403, 'status code match')
+      assert.strictEqual(res.body, 'User not found.', 'message match')
     })
   })
 })
