@@ -9,6 +9,7 @@ class Template {
         'User-Agent': 'Gandalf.id Testing tool'
       },
       json: true,
+      simple: false,
       resolveWithFullResponse: true,
       method: method,
       uri: this.uri + endpoint,
