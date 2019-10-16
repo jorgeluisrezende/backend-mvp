@@ -1,0 +1,12 @@
+echo "                                    d8b            d8b    ,d8888b        "
+echo "                                    88P            88P    88P'           "
+echo "                                   d88            d88  d888888P          "
+echo " d888b8b   d888b8b    88bd88b  d888888   d888b8b  888    ?88'            "
+echo "d8P' ?88  d8P' ?88    88P' ?8bd8P' ?88  d8P' ?88  ?88    88P             "
+echo "88b  ,88b 88b  ,88b  d88   88P88b  ,88b 88b  ,88b  88b  d88              "
+echo "\`?88P'\`88b\`?88P'\`88bd88'   88b\`?88P'\`88b\`?88P'\`88b  88bd88'      "
+echo "       )88                                                               "
+echo "      ,88P                                                               "
+echo "  \`?8888P                                                               "
+echo "                                                                         "
+node index.js $@
