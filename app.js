@@ -10,6 +10,7 @@ app.use(require('cors')())
 app.use(require('compression')())
 app.use(require('express').json())
 app.use('/proto', require('./routes'))
+app.use(require('./routes/errorHandling'))
 
 module.exports = {
   app,
