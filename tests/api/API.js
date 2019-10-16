@@ -25,7 +25,7 @@ before(done => app.listen(port, done))
 
 describe('API', function () {
   describe('access', function () {
-    it('should be able to access an API', async function () {
+    it('should be able to respond a heartbeat request', async function () {
       try {
         const res = await rp(Template.req('GET', '/ping'))
 
@@ -36,13 +36,13 @@ describe('API', function () {
       }
     })
 
-    it('shouldn\'t be able to make a request to an unexisting endpoint', async function () {
+    it('should be able to respond a request to an unexisting endpoint', async function () {
       const res = await rp(Template.req('GET', '/non-existent-endpoint'))
       assert.strictEqual(res.statusCode, 404)
       assert.strictEqual(res.body, 'Unable to find path or execute method on path.')
     })
 
-    it('should be able to send a correct username and password.', async function () {
+    it('should be able to respond a correct username and password', async function () {
       try {
         const user = {
           username: encryption.sha256('frodo'),
@@ -60,7 +60,7 @@ describe('API', function () {
       }
     })
 
-    it('should be able to send a incorrect username', async function () {
+    it('should be able to respond an incorrect username', async function () {
       const user = {
         username: encryption.sha256('non-existent-user'),
         password: encryption.sha256('mordor')
@@ -69,7 +69,26 @@ describe('API', function () {
       const req = Template.req('POST', '/user/authenticate', user)
       const res = await rp(req)
       assert.strictEqual(res.statusCode, 403, 'status code match')
-      assert.strictEqual(res.body, 'User not found.', 'message match')
+      assert.strictEqual(res.body, 'Username or password incorrect.', 'message match')
+    })
+
+    it('should be able to respond an incorrect password', async function () {
+      const user = {
+        username: encryption.sha256('frodo'),
+        password: encryption.sha256('non-existent-password')
+      }
+
+      const req = Template.req('POST', '/user/authenticate', user)
+      const res = await rp(req)
+      assert.strictEqual(res.statusCode, 403, 'status code match')
+      assert.strictEqual(res.body, 'Username or password incorrect.', 'message match')
+    })
+
+    it('should be able to respond an empty username and password', async function () {
+      const req = Template.req('POST', '/user/authenticate', {})
+      const res = await rp(req)
+      assert.strictEqual(res.statusCode, 400, 'status code match')
+      assert.strictEqual(res.body, 'Empty username or password. Check your request.', 'message match')
     })
   })
 })
