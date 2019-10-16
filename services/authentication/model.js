@@ -9,7 +9,7 @@ module.exports = {
     if (res) {
       return res.passwordHash
     } else {
-      throw new Error('Usuário não encontrado.')
+      return false
     }
   }
 }

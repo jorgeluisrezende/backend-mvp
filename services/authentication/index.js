@@ -1,18 +1,25 @@
 const model = require('./model.js')
+const debug = require('debug')('gandalf:services:authenticate')
+const PublicError = require('./../../classes/PublicError')
 
-module.exports = async function authenticate (usernameHash, passwordHash) {
+module.exports = async function authenticate (usernameHash, passwordHash, success, fail) {
+  debug(`Username: ${usernameHash}, Password: ${passwordHash}, Success: ${success}, Fail: ${fail}`)
+
   try {
     const retrievedPasswordHash = await model.getPasswordHash(usernameHash)
 
-    switch (true) {
-      case (retrievedPasswordHash === undefined):
-        throw new Error('User not found.')
-      case (retrievedPasswordHash === passwordHash):
-        return true
-      default:
-        return false
+    if (retrievedPasswordHash === false) {
+      throw new PublicError(403, 'User not found.')
+    }
+
+    if (retrievedPasswordHash !== passwordHash) {
+      throw new PublicError(403, 'Username or password incorrect.')
+    }
+
+    if (retrievedPasswordHash === passwordHash) {
+      success()
     }
   } catch (err) {
-    return err
+    fail(err)
   }
 }
