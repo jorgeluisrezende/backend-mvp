@@ -22,12 +22,8 @@ router.post('/user/authenticate', async (req, res, next) => {
     debug(`${username} and ${password}`)
 
     await authenticate(username, password,
-      () => {
-        res.status(200).send(true)
-      },
-      (err) => {
-        throw err
-      }
+      () => { res.status(200).send(true) },
+      (err) => { throw err }
     )
   } catch (err) {
     next(err)
