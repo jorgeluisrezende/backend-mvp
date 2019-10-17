@@ -3,7 +3,7 @@ const dotenv = require('dotenv')
 const app = require('express')()
 
 dotenv.config({ path: './config/env/default.env' })
-const port = process.env.APP_PORT
+const port = process.env.PORT || process.env.APP_PORT
 
 app.use(require('helmet')())
 app.use(require('cors')())
