@@ -2,7 +2,6 @@ const { describe, it, before, after } = require('mocha')
 const assert = require('chai').assert
 const rp = require('request-promise')
 const app = require('./../../app.js').app
-const encryption = require('./../../services/encryption')
 
 /**
  * Set application port
@@ -45,8 +44,8 @@ describe('API', function () {
     it('should be able to respond a correct username and password', async function () {
       try {
         const user = {
-          username: encryption.sha256('frodo'),
-          password: encryption.sha256('mordor')
+          username: 'frodo',
+          password: 'mordor'
         }
 
         const req = Template.req('POST', '/user/authenticate', user)
@@ -62,20 +61,20 @@ describe('API', function () {
 
     it('should be able to respond an incorrect username', async function () {
       const user = {
-        username: encryption.sha256('non-existent-user'),
-        password: encryption.sha256('mordor')
+        username: 'non-existent-user',
+        password: 'mordor'
       }
 
       const req = Template.req('POST', '/user/authenticate', user)
       const res = await rp(req)
       assert.strictEqual(res.statusCode, 403, 'status code match')
-      assert.strictEqual(res.body, 'Username or password incorrect.', 'message match')
+      assert.strictEqual(res.body, 'User not found.', 'message match')
     })
 
     it('should be able to respond an incorrect password', async function () {
       const user = {
-        username: encryption.sha256('frodo'),
-        password: encryption.sha256('non-existent-password')
+        username: 'frodo',
+        password: 'non-existent-password'
       }
 
       const req = Template.req('POST', '/user/authenticate', user)
@@ -89,6 +88,39 @@ describe('API', function () {
       const res = await rp(req)
       assert.strictEqual(res.statusCode, 400, 'status code match')
       assert.strictEqual(res.body, 'Empty username or password. Check your request.', 'message match')
+    })
+  })
+
+  describe('register', function () {
+    before(async function () {
+      // remove possible already entered username
+      const req = Template.req('DELETE', '/user/:id')
+      const res = await rp(req)
+
+    })
+
+    it('should be able to register a new user', async function () {
+      const user = {
+        username: 'samwise',
+        password: 'gollum'
+      }
+
+      const req = Template.req('POST', '/user/register', user)
+      const res = await rp(req)
+      assert.strictEqual(res.statusCode, 201, 'status code match')
+      assert.strictEqual(res.body, 'Username register successfully.', 'message match')
+    })
+
+    it('shouldn\'t be able to register an user with the same username ', async function () {
+      const user = {
+        username: 'frodo',
+        password: 'gollum'
+      }
+
+      const req = Template.req('POST', '/user/register', user)
+      const res = await rp(req)
+      assert.strictEqual(res.statusCode, 409, 'status code match')
+      assert.strictEqual(res.body, 'Username register successfully.', 'message match')
     })
   })
 })

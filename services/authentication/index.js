@@ -1,5 +1,9 @@
-const model = require('./model.js')
-const debug = require('debug')('gandalf:services:authenticate')
+
+const debug = require('debug')('gandalf:services:authentication')
+
+const model = require('./../model')
+const hash = require('./../hash')
+
 const PublicError = require('./../../classes/PublicError')
 
 /**
@@ -11,26 +15,31 @@ const PublicError = require('./../../classes/PublicError')
  * @return {Boolean}             A bool true or false, for the authentication.
  */
 module.exports = async function authenticate (
-  usernameHash,
-  passwordHash,
+  username,
+  password,
   success = () => {},
   fail = () => {}
 ) {
-  debug(`Username: ${usernameHash}, Password: ${passwordHash}, Success: ${success}, Fail: ${fail}`)
+  debug(`
+    Username: ${username}, 
+    Password: ${password}, 
+    Success: ${success}, 
+    Fail: ${fail}`
+  )
 
   try {
-    const retrievedPasswordHash = await model.getPasswordHash(usernameHash)
+    const pHash = await model.getPasswordHash(username)
+    debug(`pHash: ${pHash}`)
 
-    if (retrievedPasswordHash !== passwordHash) {
-      throw new PublicError(403, 'Username or password incorrect.')
-    }
-
-    if (retrievedPasswordHash === passwordHash) {
+    if (await hash.compare(password, pHash)) {
       success()
       return true
+    } else {
+      throw new PublicError(403, 'Username or password incorrect.')
     }
   } catch (err) {
     fail(err)
     return false
   }
 }
+

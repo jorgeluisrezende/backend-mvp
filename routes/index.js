@@ -1,7 +1,10 @@
 const debug = require('debug')('gandalf:router')
 const router = require('express').Router()
+
 const authenticate = require('./../services/authentication')
+const register = require('./../services/register')
 const parser = require('./../services/parser')
+
 const PublicError = require('./../classes/PublicError')
 
 /**
@@ -19,9 +22,30 @@ router.post('/user/authenticate', async (req, res, next) => {
   debug('POST on /user/authenticate')
   try {
     const { username, password } = parser.extractUserAndPassword(req)
-    debug(`${username} and ${password}`)
 
-    await authenticate(username, password,
+    await authenticate(
+      username,
+      password,
+      () => { res.status(200).send(true) },
+      (err) => { throw err }
+    )
+  } catch (err) {
+    next(err)
+  }
+})
+
+/**
+ * Register an user into the database
+ */
+router.post('/user/register', async (req, res, next) => {
+  debug('POST on /user/register')
+
+  try {
+    const { username, password } = parser.extractUserAndPassword(req)
+
+    await register(
+      username,
+      password,
       () => { res.status(200).send(true) },
       (err) => { throw err }
     )
